@@ -96,10 +96,21 @@ $ sbatch run_1_CreateSNPAnnotations_merged.R  0.75
 $ sbatch run_2_Generate_SNPLDScores_baselineLD.sh ${mainpath}/Results/ 0.75/ all_scores ${ldscpath} ${tissue}
 $ sbatch run_3_Run_SNP_LDSC_score.sh ${mainpath}/Results/ 0.75/ all_scores ${mainpath}/Data/SUMSTATS ${mainpath}/Data/GENOMES/Weights/ ${ldscpath} ${tissue} ${trait1} 
 $ sbatch run_3_Run_SNP_LDSC_score.sh ${mainpath}/Results/ 0.75/ all_scores ${mainpath}/Data/SUMSTATS ${mainpath}/Data/GENOMES/Weights/ ${ldscpath} ${tissue} ${trait2} 
-$ sbatch run_4_correlation_heritability.sh ${mainpath}/ ${ldscpath} ${trait1}  ${trait2} 
-$ sbatch run_5_baseline_heritability.sh  ${mainpath}/Results/ 0.75/ ${mainpath}/Data/SUMSTATS/ ${mainpath}/Data/GENOMES/Weights/ ${ldscpath} ${trait1}  
-$ sbatch run_5_baseline_heritability.sh  ${mainpath}/Results/ 0.75/ ${mainpath}/Data/SUMSTATS/ ${mainpath}/Data/GENOMES/Weights/ ${ldscpath} ${trait2} 
 ```
+
+## Compute LDSC genetic correlation and heritability between traits
+$ mainpath="~/main"
+$ ldscpath="/usr/local/bin/ldsc"
+$ traits=("PASS_Alzheimers_Jansen2019" "PASS_BreastCancer" "PASS_Type_2_Diabetes")
+$ for trait1 in ${traits[0..11]};
+do
+  sbatch run_5_baseline_heritability.sh  ${mainpath}/ ${ldscpath} ${trait1}  ;
+  for trait2 in ${traits[1..12]}; 
+  do
+    sbatch run_4_correlation_heritability.sh ${mainpath}/ ${ldscpath} ${trait1}  ${trait2} ;
+  done;
+done;
+sbatch run_5_baseline_heritability.sh  ${mainpath}/ ${ldscpath} ${traits[12]} ;
 
 ## Compute LDSC scores for multi-tissue analysis
 Here are the instructions for a multiple threshold analysis for one trait and one tissue (Whole_Blood)
@@ -130,12 +141,9 @@ done
 ```
 ## Extract heritability values
 ```bash
-$ thres=0.75
-$ tissue="Whole_Blood"
-$ scorename="all_score"
 $ mainpath="~/main"
 $ echo "Trait h2 se.h2" >${mainpath}/Results/LDResults/summary_heritability.txt
-$ for f in $(ls ${mainpath}/Results/LDResults/${thres}/${tissue}_${scorename}/snp_baseline.score_annot.*log) ;
+$ for f in $(ls ${mainpath}/Results/LDResults/Heritability/heritability.*log) ;
 do
  b=$(grep "Total Observed scale h2" $f | sed -e 's/Total Observed scale h2: //g' | sed -e 's/[\\(\\)]//g')
  a=$(echo $f | sed -e 's!^.*PASS_!!g' | sed -e 's/.log//g'
