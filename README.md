@@ -121,8 +121,24 @@ done
 ```
 ## Extract correlation and heritability values
 ```bash
-$ thres=0.75
 $ mainpath="~/main"
-$ for f in $(ls ${mainpath}/Results/LDResults/${}
-
+$ grep "^p1" e$(ls ${mainpath}/Results/LDResults/Correlation/correlation.* | head -1) >${mainpath}/Results/LDResults/Correlation/summary_correlation_traits.txt
+$ for f in $(ls ${mainpath}/Results/LDResults/Correlation/correlation.*) ;
+do
+  grep "^${mainpath}/" ${f} | sed -e 's!/[^ ]*/PASS_!!g' | sed -e 's/.sumstats.gz//g' >>${mainpath}/Results/LDResults/Correlation/summary_correlation_traits.txt ;
+done
+```
+## Extract heritability values
+```bash
+$ thres=0.75
+$ tissue="Whole_Blood"
+$ scorename="all_score"
+$ mainpath="~/main"
+$ echo "Trait h2 se.h2" >${mainpath}/Results/LDResults/summary_heritability.txt
+$ for f in $(ls ${mainpath}/Results/LDResults/${thres}/${tissue}_${scorename}/snp_baseline.score_annot.*log) ;
+do
+ b=$(grep "Total Observed scale h2" $f | sed -e 's/Total Observed scale h2: //g' | sed -e 's/[\\(\\)]//g')
+ a=$(echo $f | sed -e 's!^.*PASS_!!g' | sed -e 's/.log//g'
+ echo "$a $b" >>${mainpath}/Results/LDResults/summary_heritability.txt
+done
 ```
