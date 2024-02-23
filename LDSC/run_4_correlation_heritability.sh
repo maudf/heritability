@@ -28,6 +28,7 @@ SUMSTAT2=$4 # Second trait
 
 
 echo $SUMSTAT
+mkdir -p ${baseDIR}/Results/LDResults/Correlation/
 python2.7 $ldscDIR/ldsc.py \
  --rg ${baseDIR}/Data/SUMSTATS/${SUMSTAT1}.sumstats.gz,${baseDIR}/Data/SUMSTATS/${SUMSTAT2}.sumstats.gz \
  --ref-ld-chr ${baseDIR}/Data/GENOMES/Baseline/snp_baselineLD. \
