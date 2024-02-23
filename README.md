@@ -1,10 +1,12 @@
-#General information
+# General information
 This series of scripts can be used to replicate the analyses and plots from Stone et al., 2024 ().
 
-#Required setting
+# Required setting
 Before you start, please organise your work directory as follow, and check that you have installed all the required softwares and R packages.
-##Filesystem:
+
+## Filesystem
 You must start with a file system organised as follow:
+
 ```
 main
 ├── Data
@@ -39,7 +41,7 @@ plink2
 LDSC
 
 ## Required R packages
-###General packages
+### General packages
 require("getopt")
 require("scriptName")
 
@@ -59,25 +61,29 @@ require("dendextend")
 require("wordcloud")
 require("wesanderson")
 
-###Network analysis packages
+### Network analysis packages
 require("netZooR")
 require("Matrix")
 require("igraph")
 
 
-###Gene Ontology enrichment analysis packages
+### Gene Ontology enrichment analysis packages
 require("topGO")
 require("org.Hs.eg.db")
 
-cd Eqtl_networks
-sbatch run_1_compute_corescores.sh
-sbatch run_2_compute_ld_blocks.sh
-sbatch run_3_extract_annot_snps_in_network.sh
+# Execute the scripts
+``
+$ cd Eqtl_networks
+$ sbatch run_1_compute_corescores.sh
+$ sbatch run_2_compute_ld_blocks.sh
+$ sbatch run_3_extract_annot_snps_in_network.sh
+$ sbatch run_3_extract_annot_snps_in_network.sh
+$ sbatch run_4_analyseGOenrichment.sh
+$ sbatch run_5_plotGOenrichment.sh
 
-cd ../LDSC
-
-sbatch run_1_CreateSNPAnnotations_merged.R
-sbatch run_2_Generate_SNPLDScores_baselineLD.sh
-sbatch run_3_Run_SNP_LDSC_score.sh
-sbatch run_4_correlation_heritability.sh
+$cd ../LDSC
+$ sbatch run_1_CreateSNPAnnotations_merged.R
+$ sbatch run_2_Generate_SNPLDScores_baselineLD.sh
+$ sbatch run_3_Run_SNP_LDSC_score.sh
+$ sbatch run_4_correlation_heritability.sh
 sbatch run_5_baseline_heritability.sh
