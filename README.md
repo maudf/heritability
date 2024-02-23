@@ -86,12 +86,13 @@ $ cd ..
 Here are the instructions for a threshold of 0.75 to define high degree and high core score SNPs
 
 ```bash
+$ ldscpath="/usr/local/bin/ldsc"
 $ cd LDSC
 $ sbatch run_1_CreateSNPAnnotations_merged.R  0.75
-$ sbatch run_2_Generate_SNPLDScores_baselineLD.sh ~/main/ Results/Networks/0.75/ all_scores /usr/local/bin/ldsc Adipose_Subcutaneous
-$ sbatch run_3_Run_SNP_LDSC_score.sh ~/main/ Results/Networks/0.75/ all_scores Data/SUMSTATS Data/GENOMES/Weights/ /usr/local/bin/ldsc Adipose_Subcutaneous PASS_Alzheimers_Jansen2019
-$ sbatch run_3_Run_SNP_LDSC_score.sh ~/main/ Results/Networks/0.75/ all_scores Data/SUMSTATS Data/GENOMES/Weights/ /usr/local/bin/ldsc Adipose_Subcutaneous PASS_BreastCancer
-$ sbatch run_4_correlation_heritability.sh ~/main/ Results/Networks/0.75/ Data/SUMSTATS/ Data/GENOMES/Weights/ /usr/local/bin/ldsc PASS_Alzheimers_Jansen2019 PASS_BreastCancer
-$ sbatch run_5_baseline_heritability.sh  ~/main/ Results/Networks/0.75/ Data/SUMSTATS/ Data/GENOMES/Weights/ /usr/local/bin/ldsc PASS_Alzheimers_Jansen2019 
-$ sbatch run_5_baseline_heritability.sh  ~/main/ Results/Networks/0.75/ Data/SUMSTATS/ Data/GENOMES/Weights/ /usr/local/bin/ldsc PASS_BreastCancer 
+$ sbatch run_2_Generate_SNPLDScores_baselineLD.sh ~/main/ Results/Networks/0.75/ all_scores ${ldscpath} Adipose_Subcutaneous
+$ sbatch run_3_Run_SNP_LDSC_score.sh ~/main/ Results/Networks/0.75/ all_scores Data/SUMSTATS Data/GENOMES/Weights/ ${ldscpath} Adipose_Subcutaneous PASS_Alzheimers_Jansen2019
+$ sbatch run_3_Run_SNP_LDSC_score.sh ~/main/ Results/Networks/0.75/ all_scores Data/SUMSTATS Data/GENOMES/Weights/ ${ldscpath} Adipose_Subcutaneous PASS_BreastCancer
+$ sbatch run_4_correlation_heritability.sh ~/main/ Results/Networks/0.75/ Data/SUMSTATS/ Data/GENOMES/Weights/ ${ldscpath} PASS_Alzheimers_Jansen2019 PASS_BreastCancer
+$ sbatch run_5_baseline_heritability.sh  ~/main/ Results/Networks/0.75/ Data/SUMSTATS/ Data/GENOMES/Weights/ ${ldscpath} PASS_Alzheimers_Jansen2019 
+$ sbatch run_5_baseline_heritability.sh  ~/main/ Results/Networks/0.75/ Data/SUMSTATS/ Data/GENOMES/Weights/ ${ldscpath} PASS_BreastCancer 
 ```
