@@ -72,18 +72,25 @@ require("topGO")
 require("org.Hs.eg.db")
 
 # Execute the scripts
-``
+## Build eQTL networks and analyse their structure
+``bash
 $ cd Eqtl_networks
 $ sbatch run_1_compute_corescores.sh
 $ sbatch run_2_compute_ld_blocks.sh
-$ sbatch run_3_extract_annot_snps_in_network.sh
-$ sbatch run_3_extract_annot_snps_in_network.sh
+$ sbatch run_3_extract_annot_snps_in_network.sh 
 $ sbatch run_4_analyseGOenrichment.sh
 $ sbatch run_5_plotGOenrichment.sh
+$ cd ..
+``
+## Compute LDSC scores for multi-tissue analysis
+Here are the instructions for a threshold of 0.75 to define high degree and high core score SNPs
 
-$cd ../LDSC
-$ sbatch run_1_CreateSNPAnnotations_merged.R
-$ sbatch run_2_Generate_SNPLDScores_baselineLD.sh
-$ sbatch run_3_Run_SNP_LDSC_score.sh
-$ sbatch run_4_correlation_heritability.sh
-sbatch run_5_baseline_heritability.sh
+``bash
+$ cd LDSC
+$ sbatch run_1_CreateSNPAnnotations_merged.R  0.75
+$ sbatch run_2_Generate_SNPLDScores_baselineLD.sh ~/main/ Results/Networks/0.75/ all_scores /usr/local/bin/ldsc Adipose_Subcutaneous
+$ sbatch run_3_Run_SNP_LDSC_score.sh ~/main/ Results/Networks/0.75/ all_scores Data/SUMSTATS Data/GENOMES/Weights/ /usr/local/bin/ldsc Adipose_Subcutaneous PASS_Alzheimers_Jansen2019
+$ sbatch run_3_Run_SNP_LDSC_score.sh ~/main/ Results/Networks/0.75/ all_scores Data/SUMSTATS Data/GENOMES/Weights/ /usr/local/bin/ldsc Adipose_Subcutaneous PASS_BreastCancer
+$ sbatch run_4_correlation_heritability.sh ~/main/ Results/Networks/0.75/ Data/SUMSTATS/ Data/GENOMES/Weights/ /usr/local/bin/ldsc PASS_Alzheimers_Jansen2019 PASS_BreastCancer
+$ sbatch run_5_baseline_heritability.sh  ~/main/ Results/Networks/0.75/ Data/SUMSTATS/ Data/GENOMES/Weights/ /usr/local/bin/ldsc PASS_Alzheimers_Jansen2019 
+$ sbatch run_5_baseline_heritability.sh  ~/main/ Results/Networks/0.75/ Data/SUMSTATS/ Data/GENOMES/Weights/ /usr/local/bin/ldsc PASS_BreastCancer 
