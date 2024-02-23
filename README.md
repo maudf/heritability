@@ -15,7 +15,7 @@ main
     │   └── ...
     ├── GENOMES
     │   ├── Baseline
-    │   │   ├── baselineLD.1.annot.gz
+    │   │   ├── snp_baselineLD.1.annot.gz
     │   │   └── ...
     │   ├── Plink
     │   │   ├── Seq.1.bed
@@ -83,16 +83,46 @@ $ sbatch run_5_plotGOenrichment.sh
 $ cd ..
 ```
 ## Compute LDSC scores for multi-tissue analysis
-Here are the instructions for a threshold of 0.75 to define high degree and high core score SNPs
+Here are the instructions for a threshold of 0.75. This example includes 2 traits because it showcases the trait heritability correlation analysis.
 
 ```bash
+$ mainpath="~/main"
 $ ldscpath="/usr/local/bin/ldsc"
+$ trait1="PASS_Alzheimers_Jansen2019"
+$ trait2="PASS_BreastCancer"
+$ tissue="Adipose_subcutaneous"
 $ cd LDSC
 $ sbatch run_1_CreateSNPAnnotations_merged.R  0.75
-$ sbatch run_2_Generate_SNPLDScores_baselineLD.sh ~/main/ Results/Networks/0.75/ all_scores ${ldscpath} Adipose_Subcutaneous
-$ sbatch run_3_Run_SNP_LDSC_score.sh ~/main/ Results/Networks/0.75/ all_scores Data/SUMSTATS Data/GENOMES/Weights/ ${ldscpath} Adipose_Subcutaneous PASS_Alzheimers_Jansen2019
-$ sbatch run_3_Run_SNP_LDSC_score.sh ~/main/ Results/Networks/0.75/ all_scores Data/SUMSTATS Data/GENOMES/Weights/ ${ldscpath} Adipose_Subcutaneous PASS_BreastCancer
-$ sbatch run_4_correlation_heritability.sh ~/main/ Results/Networks/0.75/ Data/SUMSTATS/ Data/GENOMES/Weights/ ${ldscpath} PASS_Alzheimers_Jansen2019 PASS_BreastCancer
-$ sbatch run_5_baseline_heritability.sh  ~/main/ Results/Networks/0.75/ Data/SUMSTATS/ Data/GENOMES/Weights/ ${ldscpath} PASS_Alzheimers_Jansen2019 
-$ sbatch run_5_baseline_heritability.sh  ~/main/ Results/Networks/0.75/ Data/SUMSTATS/ Data/GENOMES/Weights/ ${ldscpath} PASS_BreastCancer 
+$ sbatch run_2_Generate_SNPLDScores_baselineLD.sh ${mainpath}/Results/ 0.75/ all_scores ${ldscpath} ${tissue}
+$ sbatch run_3_Run_SNP_LDSC_score.sh ${mainpath}/Results/ 0.75/ all_scores ${mainpath}/Data/SUMSTATS ${mainpath}/Data/GENOMES/Weights/ ${ldscpath} ${tissue} ${trait1} 
+$ sbatch run_3_Run_SNP_LDSC_score.sh ${mainpath}/Results/ 0.75/ all_scores ${mainpath}/Data/SUMSTATS ${mainpath}/Data/GENOMES/Weights/ ${ldscpath} ${tissue} ${trait2} 
+$ sbatch run_4_correlation_heritability.sh ${mainpath}/ ${ldscpath} ${trait1}  ${trait2} 
+$ sbatch run_5_baseline_heritability.sh  ${mainpath}/Results/ 0.75/ ${mainpath}/Data/SUMSTATS/ ${mainpath}/Data/GENOMES/Weights/ ${ldscpath} ${trait1}  
+$ sbatch run_5_baseline_heritability.sh  ${mainpath}/Results/ 0.75/ ${mainpath}/Data/SUMSTATS/ ${mainpath}/Data/GENOMES/Weights/ ${ldscpath} ${trait2} 
+```
+
+## Compute LDSC scores for multi-tissue analysis
+Here are the instructions for a multiple threshold analysis for one trait and one tissue (Whole_Blood)
+
+```bash
+$ mainpath="~/main"
+$ ldscpath="/usr/local/bin/ldsc"
+$ trait1="PASS_Alzheimers_Jansen2019"
+$ tissue="Whole_Blood"
+$ scorename="all_scores"
+$ cd LDSC
+$ for thres in (0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 0.95);
+do
+  sbatch run_1_CreateSNPAnnotations_merged.R ${thres} ;
+  sbatch run_2_Generate_SNPLDScores_baselineLD.sh ${mainpath}/Results/ ${thres}/ ${scorename} ${ldscpath} ${tissue};
+  sbatch run_3_Run_SNP_LDSC_score.sh ${mainpath}/Results/ ${thres}/ ${scorename} ${mainpath}/ata/SUMSTATS ${mainpath}/Data/GENOMES/Weights/ ${ldscpath} ${tissue} ${trait1};
+  sbatch run_5_baseline_heritability.sh  ${mainpath}/Results/ ${thres}/ ${mainpath}/Data/SUMSTATS/ ${mainpath}/Data/GENOMES/Weights/ ${ldscpath} ${trait1} ;
+done
+```
+## Extract correlation and heritability values
+```bash
+$ thres=0.75
+$ mainpath="~/main"
+$ for f in $(ls ${mainpath}/Results/LDResults/${}
+
 ```
