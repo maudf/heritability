@@ -29,14 +29,14 @@ TISSUE=$5 # Tissue to
 
 python2.7 $ldscDIR/ldsc.py \
     --l2 \
-    --bfile  ${baseDIR}/${scoresDIR}/${TISSUE}_${scoreNAME}/snp_1000G.EUR.hg38.${SLURM_ARRAY_TASK_ID} \
+    --bfile  ${baseDIR}/LDAnnot/${scoresDIR}/${TISSUE}_${scoreNAME}/snp_1000G.EUR.hg38.${SLURM_ARRAY_TASK_ID} \
     --ld-wind-cm 1 \
-    --annot ${baseDIR}/${scoresDIR}/${TISSUE}_${scoreNAME}/snp_baselineLD.${SLURM_ARRAY_TASK_ID}.annot.gz \
-    --out ${baseDIR}/${scoresDIR}/${TISSUE}_${scoreNAME}/snp_baselineLD.${SLURM_ARRAY_TASK_ID}
+    --annot ${baseDIR}/LDAnnot/${scoresDIR}/${TISSUE}_${scoreNAME}/snp_baselineLD.${SLURM_ARRAY_TASK_ID}.annot.gz \
+    --out ${baseDIR}/LDResults/${scoresDIR}/${TISSUE}_${scoreNAME}/snp_baselineLD.${SLURM_ARRAY_TASK_ID}
 
 python2.7 $ldscDIR/ldsc.py \
     --l2 \
-    --bfile  ${baseDIR}/${scoresDIR}/${TISSUE}_${scoreNAME}/snp_1000G.EUR.hg38.${SLURM_ARRAY_TASK_ID} \
+    --bfile  ${baseDIR}/LDAnnot/${scoresDIR}/${TISSUE}_${scoreNAME}/snp_1000G.EUR.hg38.${SLURM_ARRAY_TASK_ID} \
     --ld-wind-cm 1 \
-    --annot ${baseDIR}/${scoresDIR}/${TISSUE}_${scoreNAME}/snp_score_annot.${SLURM_ARRAY_TASK_ID}.annot.gz \
-    --out ${baseDIR}/${scoresDIR}/${TISSUE}_${scoreNAME}/snp_score_annot.${SLURM_ARRAY_TASK_ID}
+    --annot ${baseDIR}/LDAnnot/${scoresDIR}/${TISSUE}_${scoreNAME}/snp_score_annot.${SLURM_ARRAY_TASK_ID}.annot.gz \
+    --out ${baseDIR}/LDScores/${scoresDIR}/${TISSUE}_${scoreNAME}/snp_score_annot.${SLURM_ARRAY_TASK_ID}

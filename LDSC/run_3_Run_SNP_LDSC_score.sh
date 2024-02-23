@@ -29,11 +29,11 @@ SUMSTAT=$8
 
 
 python2.7 $ldscDIR/ldsc.py \
-      --h2 ${baseDIR}/${sumstatDIR}/${SUMSTAT}.sumstats.gz \
-      --ref-ld-chr ${baseDIR}/${scoresDIR}/${TISSUE}_${scoreNAME}/snp_score_annot.,${baseDIR}/${scoresDIR}/${TISSUE}_${scoreNAME}/snp_baselineLD. \
-      --frqfile-chr ${baseDIR}/${scoresDIR}/${TISSUE}_${scoreNAME}/snp_1000G.EUR.hg38. \
-      --w-ld-chr ${baseDIR}/${weightfileDIR}/weights.hm3_noMHC. \
+      --h2 ${sumstatDIR}/${SUMSTAT}.sumstats.gz \
+      --ref-ld-chr ${baseDIR}/LDScores/${scoresDIR}/${TISSUE}_${scoreNAME}/snp_score_annot.,${baseDIR}/LDScores/${scoresDIR}/${TISSUE}_${scoreNAME}/snp_baselineLD. \
+      --frqfile-chr ${baseDIR}/LDAnnot/${scoresDIR}/${TISSUE}_${scoreNAME}/snp_1000G.EUR.hg38. \
+      --w-ld-chr ${weightfileDIR}/weights.hm3_noMHC. \
       --overlap-annot \
       --print-coefficients \
       --print-delete-vals \
-      --out ${baseDIR}/${scoresDIR}/${TISSUE}_${scoreNAME}/snp_baseline.score_annot.${SUMSTAT}
+      --out ${baseDIR}/LDResults/${scoresDIR}/${TISSUE}_${scoreNAME}/snp_baseline.score_annot.${SUMSTAT}

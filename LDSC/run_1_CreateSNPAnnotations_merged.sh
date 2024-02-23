@@ -21,13 +21,14 @@
 
 ## Run for each chromosome
 #SBATCH --array=1-22
+thres=$1
 
 Rscript code/1_CreateSNPAnnotations_merged.R \
 -d main/ \
 -a Data/Annotations/SNPs_network.mapping \
--b Data/Genomes/Plink/ \
--n Results/Networks \
--l Data/Genomes/Baseline/ \
+-b Data/GENOMES/Plink/ \
+-n Results/Networks/ \
+-l Data/GENOMES/Baseline/ \
 -c ${SLURM_ARRAY_TASK_ID} \
--t 0.75 \
+-t $thres \
 -o Results/LDAnnot/

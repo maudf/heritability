@@ -22,19 +22,16 @@
 #SBATCH --time=02-12:00:00 # days-hh:mm:ss
 
 baseDIR=$1 # Path to the analysis. E.g.: "~/Documents/Heritability_eqtls_networks/"
-scoresDIR=$2 # Path to the scores to analyse. E.g.: "Results/Networks/Weighted/"
-sumstatDIR=$3 # Path to the sumstats to analyse. E.g.: "Data/UKKB"
-weightfileDIR=$4 # Path to the files with hm3 weights "Data/1000G.EUR.QC/1000G_Phase3_weights_hm3_no_MHC"
-ldscDIR=$5 # Path to the ldsc software
-SUMSTAT1=$6 # First trait
-SUMSTAT2=$7 # Second trait
+ldscDIR=$2 # Path to the ldsc software
+SUMSTAT1=$3 # First trait
+SUMSTAT2=$4 # Second trait
 
 
 echo $SUMSTAT
 python2.7 $ldscDIR/ldsc.py \
- --rg ${baseDIR}/${sumstatDIR}/${SUMSTAT1}.sumstats.gz,${baseDIR}/${sumstatDIR}/${SUMSTAT2}.sumstats.gz \
- --ref-ld-chr ${baseDIR}/${scoresDIR}/snp_baselineLD. \
- --frqfile-chr ${baseDIR}/${scoresDIR}/snp_1000G.EUR.hg38. \
- --w-ld-chr ${baseDIR}/${weightfileDIR}/weights.hm3_noMHC. \
+ --rg ${baseDIR}/Data/SUMSTATS/${SUMSTAT1}.sumstats.gz,${baseDIR}/Data/SUMSTATS/${SUMSTAT2}.sumstats.gz \
+ --ref-ld-chr ${baseDIR}/Data/GENOMES/Baseline/snp_baselineLD. \
+ --frqfile-chr ${baseDIR}/Data/GENOMES/Plink/Seq. \
+ --w-ld-chr ${baseDIR}/Data/GENOMES/Weights/weights. \
  --overlap-annot \
- --out ${baseDIR}/${scoresDIR}/correlation.${SUMSTAT1}.${SUMSTAT2}
+ --out ${baseDIR}/Results/LDResults/Correlation/correlation.${SUMSTAT1}.${SUMSTAT2}
